@@ -1,5 +1,6 @@
-import { AppError } from "../../../../errors/AppError";
-import { CategoriesRepositoryInMemory } from "../../repositories/in-memory/CategoriesRepositoryInMemory";
+import { CategoriesRepositoryInMemory } from "@modules/cars/repositories/in-memory/CategoriesRepositoryInMemory";
+import { AppError } from "@shared/errors/AppError";
+
 import { CreateCategoryUseCase } from "./CreateCategoryUseCase";
 
 let createCategoryUseCase: CreateCategoryUseCase;
@@ -36,12 +37,7 @@ describe("Create Category", () => {
       };
 
       await createCategoryUseCase.execute(category);
-
-      const categoryCreated = await categoriesRepositoryInMemory.findByName(
-        category.name
-      );
-
-      expect(categoryCreated).toHaveProperty("id");
+      await createCategoryUseCase.execute(category);
     }).rejects.toBeInstanceOf(AppError);
   });
 });
